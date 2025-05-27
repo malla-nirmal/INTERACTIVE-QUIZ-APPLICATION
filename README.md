@@ -119,3 +119,7 @@ With modification, it can be used to collect opinions or feedback by converting 
 
 Conclusion
 This code demonstrates how you can build a basic yet fully functional quiz app using only front-end web development tools. It emphasizes logic control with JavaScript, user interface design using HTML and CSS, and is suitable for multiple application domains. Since it is purely client-side, it's easy to deploy, fast to load, and flexible enough to enhance with additional features like timers, user login, progress bars, or storing scores using localStorage or a backend service. This kind of project also serves as an excellent foundation for beginners learning interactive web development.
+
+ #OUTPUT
+
+ ![Image](https://github.com/user-attachments/assets/a005a4c6-7786-4f73-818d-0501c092db14)
