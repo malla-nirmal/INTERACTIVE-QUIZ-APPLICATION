@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz App</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #635eca;
+      padding: 50px;
+    }
+
+    .container {
+      background: #bf9999;
+      max-width: 600px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .question {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      background: #e0e0e0;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn.correct {
+      background: #9ee89e;
+    }
+
+    .btn.wrong {
+      background: #f59d9d;
+    }
+
+    .feedback {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .next {
+      margin-top: 25px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      display: none;
+    }
+
+    .score {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="quiz">
+    <div class="question" id="question"></div>
+    <div id="answers"></div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next" id="next">Next</button>
+  </div>
+
+  <script>
+    const data = [
+      {
+        q: "What is the capital of Italy?",
+        opts: ["Rome", "Paris", "Lisbon", "Vienna"],
+        ans: "Rome"
+      },
+      {
+        q: "5 x 3 = ?",
+        opts: ["8", "15", "10", "5"],
+        ans: "15"
+      },
+      {
+        q: "Which one is a planet?",
+        opts: ["Moon", "Mars", "Sun", "Cloud"],
+        ans: "Mars"
+      }
+    ];
+
+    let idx = 0;
+    let score = 0;
+
+    const question = document.getElementById("question");
+    const answers = document.getElementById("answers");
+    const feedback = document.getElementById("feedback");
+    const next = document.getElementById("next");
+
+    function load() {
+      const item = data[idx];
+      question.textContent = item.q;
+      answers.innerHTML = "";
+      feedback.textContent = "";
+      next.style.display = "none";
+
+      item.opts.forEach(opt => {
+        const b = document.createElement("button");
+        b.className = "btn";
+        b.textContent = opt;
+        b.onclick = () => pick(b, item.ans);
+        answers.appendChild(b);
+      });
+    }
+
+    function pick(btn, correct) {
+      const btns = document.querySelectorAll(".btn");
+      btns.forEach(b => b.disabled = true);
+
+      if (btn.textContent === correct) {
+        btn.classList.add("correct");
+        feedback.textContent = "Correct!";
+        score++;
+      } else {
+        btn.classList.add("wrong");
+        btns.forEach(b => {
+          if (b.textContent === correct) b.classList.add("correct");
+        });
+        feedback.textContent = "Wrong!";
+      }
+
+      next.style.display = "inline-block";
+    }
+
+    next.onclick = () => {
+      idx++;
+      if (idx < data.length) {
+        load();
+      } else {
+        end();
+      }
+    };
+
+    function end() {
+      document.getElementById("quiz").innerHTML = `
+        <div class="score">
+          <h2>Done!</h2>
+          <p>You scored ${score} / ${data.length}</p>
+        </div>
+      `;
+    }
+
+    load();
+  </script>
+
+</body>
+</html>
